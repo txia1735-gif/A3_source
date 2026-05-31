@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}资源生成 | AI 个性化学习多智能体系统{% endblock %}
+
+{% block content %}
+<section class="row g-4">
+    <div class="col-lg-4">
+        <div class="glass-panel h-100">
+            <p class="section-kicker">资源工坊</p>
+            <h1 class="h3 mb-3">多模态学习资源生成</h1>
+            <form id="resourceForm" class="row g-3">
+                <div class="col-12">
+                    <label class="form-label">选择用户</label>
+                    <select class="form-select" name="user_id" required>
+                        <option value="">请选择</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">主题</label>
+                    <input class="form-control" name="topic" placeholder="例如：二叉树遍历、牛顿第二定律" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">资源类型</label>
+                    <div class="tag-group">
+                        {% for resource_type in ['course_document','mind_map','quiz_bank','video_script','code_example','ppt_outline'] %}
+                        <label class="tag-check">
+                            <input type="checkbox" name="resource_types" value="{{ resource_type }}" checked>
+                            <span>{{ resource_type }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-brand" type="submit">生成资源</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="glass-panel h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="section-kicker">生成结果</p>
+                    <h2 class="h4 mb-1">资源列表</h2>
+                </div>
+                <button id="loadResourcesBtn" class="btn btn-outline-light btn-sm">刷新列表</button>
+            </div>
+            <div id="resourceResult" class="stack-list"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+window.pageConfig = { page: "resource" };
+</script>
+{% endblock %}
+

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}智能答疑 | AI 个性化学习多智能体系统{% endblock %}
+
+{% block content %}
+<section class="row g-4">
+    <div class="col-lg-4">
+        <div class="glass-panel h-100">
+            <p class="section-kicker">答疑辅导</p>
+            <h1 class="h3 mb-3">AI 学习问答</h1>
+            <form id="answerForm" class="row g-3">
+                <div class="col-12">
+                    <label class="form-label">选择用户</label>
+                    <select class="form-select" name="user_id" required>
+                        <option value="">请选择</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">问题主题</label>
+                    <input class="form-control" name="topic" placeholder="例如：排序算法、语法填空">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">提问内容</label>
+                    <textarea class="form-control" name="question" rows="6" placeholder="请直接输入学生问题..." required></textarea>
+                </div>
+                <div class="col-12 d-flex gap-2">
+                    <button class="btn btn-brand" type="submit">普通回答</button>
+                    <button class="btn btn-outline-light" type="button" id="streamAnswerBtn">流式回答</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="glass-panel h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="section-kicker">答疑结果</p>
+                    <h2 class="h4 mb-1">文本输出与历史记录</h2>
+                </div>
+                <button id="loadAnswersBtn" class="btn btn-outline-light btn-sm">刷新记录</button>
+            </div>
+            <div id="answerCurrent" class="result-panel mb-3"></div>
+            <div id="answerHistory" class="stack-list"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+window.pageConfig = { page: "answer" };
+</script>
+{% endblock %}
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI 个性化学习多智能体系统{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/app.css') }}" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="orb orb-left"></div>
+    <div class="orb orb-right"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('user.index') }}">AI Learning Agent</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('user.index') }}">总览</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('user.profile_page') }}">学习画像</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('resource.resource_page') }}">资源生成</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('study.study_page') }}">学习路径</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('answer.answer_page') }}">智能答疑</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('evaluate.evaluate_page') }}">效果评估</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4 py-lg-5">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="container pb-5 text-secondary small">
+        <div class="glass-panel px-4 py-3 d-flex flex-column flex-lg-row justify-content-between gap-2">
+            <span>AI 个性化学习多智能体系统</span>
+            <span>Flask + MySQL + Bootstrap 5 + Multi-Agent Workflow</span>
+            <span>{{ current_year }}</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+

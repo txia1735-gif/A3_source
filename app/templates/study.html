@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}学习路径 | AI 个性化学习多智能体系统{% endblock %}
+
+{% block content %}
+<section class="row g-4">
+    <div class="col-lg-4">
+        <div class="glass-panel h-100">
+            <p class="section-kicker">路径规划</p>
+            <h1 class="h3 mb-3">个性化学习路径生成</h1>
+            <form id="studyForm" class="row g-3">
+                <div class="col-12">
+                    <label class="form-label">选择用户</label>
+                    <select class="form-select" name="user_id" required>
+                        <option value="">请选择</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">主题</label>
+                    <input class="form-control" name="topic" placeholder="例如：MySQL 索引、导数应用" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">规划天数</label>
+                    <input class="form-control" name="target_days" type="number" min="3" max="21" value="7">
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-brand" type="submit">生成学习路径</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="glass-panel h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="section-kicker">路径结果</p>
+                    <h2 class="h4 mb-1">动态计划与复习安排</h2>
+                </div>
+                <button id="loadStudyBtn" class="btn btn-outline-light btn-sm">刷新路径</button>
+            </div>
+            <div id="studyResult" class="stack-list"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+window.pageConfig = { page: "study" };
+</script>
+{% endblock %}
+

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}学习画像 | AI 个性化学习多智能体系统{% endblock %}
+
+{% block content %}
+<section class="row g-4">
+    <div class="col-lg-5">
+        <div class="glass-panel h-100">
+            <p class="section-kicker">画像构建</p>
+            <h1 class="h3 mb-3">7 维学习画像 + 遗忘机制</h1>
+            <form id="profileForm" class="row g-3">
+                <div class="col-12">
+                    <label class="form-label">选择用户</label>
+                    <select class="form-select" name="user_id" required>
+                        <option value="">请选择</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }} · {{ user.major or '未设置专业' }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">当前学习主题</label>
+                    <input class="form-control" name="study_topic" placeholder="例如：数据结构、函数极限、英语阅读">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">学习对话 / 行为描述</label>
+                    <textarea class="form-control" name="conversation_text" rows="8" placeholder="例如：我准备期末复习，喜欢看图和视频，刷题时总在边界情况出错..." required></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-brand" type="submit">生成或刷新画像</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="glass-panel h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="section-kicker">画像结果</p>
+                    <h2 class="h4 mb-1">学习者当前画像状态</h2>
+                </div>
+                <button id="loadProfileBtn" class="btn btn-outline-light btn-sm">读取当前画像</button>
+            </div>
+            <div id="profileResult" class="row g-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+window.pageConfig = { page: "profile" };
+</script>
+{% endblock %}
+

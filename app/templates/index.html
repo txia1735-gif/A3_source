@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}系统总览 | AI 个性化学习多智能体系统{% endblock %}
+
+{% block content %}
+<section class="hero-panel mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <span class="eyebrow">因材施教 · 多智能体协同</span>
+            <h1 class="display-5 fw-bold mt-3">把学习画像、资源生成、路径规划、答疑和评估放进同一个 AI 工作流</h1>
+            <p class="lead text-secondary mt-3">
+                这个系统面向学生场景，围绕 7 维画像、艾宾浩斯遗忘机制和 6 类学习资源，形成完整的个性化学习闭环。
+            </p>
+            <div class="d-flex flex-wrap gap-3 mt-4">
+                <a class="btn btn-brand btn-lg" href="{{ url_for('user.profile_page') }}">开始构建画像</a>
+                <button class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#userModal">新建用户</button>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="glass-panel stats-grid">
+                <div>
+                    <p class="stats-label">画像维度</p>
+                    <p class="stats-value">7</p>
+                </div>
+                <div>
+                    <p class="stats-label">智能体数量</p>
+                    <p class="stats-value">6</p>
+                </div>
+                <div>
+                    <p class="stats-label">资源模态</p>
+                    <p class="stats-value">6</p>
+                </div>
+                <div>
+                    <p class="stats-label">核心数据表</p>
+                    <p class="stats-value">6</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="glass-panel h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <p class="section-kicker">项目驾驶舱</p>
+                    <h2 class="h4 mb-1">一键多智能体协同</h2>
+                    <p class="text-secondary mb-0">输入学习描述和主题，系统将自动完成画像、资源、路径、答疑和评估。</p>
+                </div>
+            </div>
+            <form id="orchestrateForm" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">选择用户</label>
+                    <select class="form-select" name="user_id" required>
+                        <option value="">请选择</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }} · {{ user.grade or '未设置年级' }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">学习主题</label>
+                    <input class="form-control" name="topic" placeholder="例如：Python 面向对象、线性代数矩阵运算" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">学习描述 / 对话输入</label>
+                    <textarea class="form-control" name="conversation_text" rows="5" placeholder="例如：我准备两周后考试，基础一般，更喜欢视频和图解，经常在边界条件上出错..." required></textarea>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-brand" type="submit">运行协同流程</button>
+                </div>
+            </form>
+            <div id="orchestrateResult" class="result-panel mt-4 d-none"></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="glass-panel h-100">
+            <p class="section-kicker">当前用户</p>
+            <h2 class="h4 mb-3">用户列表</h2>
+            <div id="userList" class="stack-list">
+                {% if users %}
+                    {% for user in users %}
+                    <div class="mini-card">
+                        <strong>{{ user.username }}</strong>
+                        <span>{{ user.email }}</span>
+                        <small>{{ user.grade or '未设置年级' }} · {{ user.major or '未设置专业' }}</small>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">当前还没有用户，先创建一个学习者吧。</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="row g-4">
+    <div class="col-md-6 col-xl-3">
+        <a href="{{ url_for('user.profile_page') }}" class="feature-card text-decoration-none">
+            <span class="feature-index">01</span>
+            <h3>学习画像</h3>
+            <p>7 维固定画像 + 权重衰减 + 动态更新</p>
+        </a>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <a href="{{ url_for('resource.resource_page') }}" class="feature-card text-decoration-none">
+            <span class="feature-index">02</span>
+            <h3>资源生成</h3>
+            <p>文档、导图、题库、视频脚本、代码、PPT</p>
+        </a>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <a href="{{ url_for('study.study_page') }}" class="feature-card text-decoration-none">
+            <span class="feature-index">03</span>
+            <h3>学习路径</h3>
+            <p>结合遗忘曲线与知识依赖动态规划</p>
+        </a>
+    </div>
+    <div class="col-md-6 col-xl-3">
+        <a href="{{ url_for('evaluate.evaluate_page') }}" class="feature-card text-decoration-none">
+            <span class="feature-index">04</span>
+            <h3>效果评估</h3>
+            <p>用报告驱动后续学习策略持续优化</p>
+        </a>
+    </div>
+</section>
+
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content modal-glass">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">创建学习者</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">用户名</label>
+                        <input class="form-control" name="username" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">邮箱</label>
+                        <input class="form-control" name="email" type="email" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">年级</label>
+                        <input class="form-control" name="grade" placeholder="高一 / 大二 / 自学者">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">专业 / 方向</label>
+                        <input class="form-control" name="major" placeholder="计算机 / 数学 / 英语">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">学习背景</label>
+                        <textarea class="form-control" name="bio" rows="3" placeholder="补充当前基础、目标、兴趣和困难点"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-brand" type="submit">保存用户</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+window.pageConfig = { page: "index" };
+</script>
+{% endblock %}
+
