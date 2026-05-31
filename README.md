@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI Personalized Learning Multi-Agent System
 
 一个基于 Flask + MySQL 的 AI 个性化学习多智能体系统，实现了学习画像、艾宾浩斯遗忘机制、多资源生成、学习路径规划、智能答疑和效果评估。
@@ -65,3 +66,7 @@ A3_source/
 - 默认数据库支持 SQLite 快速演示；按照需求文档可无缝切换到 MySQL 8.0
 - 项目启动时会自动建表，方便直接体验
 
+=======
+# A3_source
+基于大模型的个性化资源生成与学习多智能体系统开发
+>>>>>>> 8fbfdc0143a4def81ea151ea6ed8cfd3cbf431d4
